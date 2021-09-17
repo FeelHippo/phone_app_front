@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 // inject Redux
 import { Provider } from 'react-redux'
@@ -18,7 +19,11 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={ store }>
-      <App />
+      <Router>
+        <Suspense fallback={ null }>
+          <App /> 
+        </Suspense>
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

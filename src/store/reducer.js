@@ -2,6 +2,7 @@ import { types } from './types'
 
 const defaultState = {
   phones: [],
+  phone: null,
   isModalOpen: false,
 }
 
@@ -12,11 +13,16 @@ const state = (state = defaultState, action) => {
         ...state,
         phones: action.payload,
       }
-      case types.TOGGLE_MODAL:
-        return {
-          ...state,
-          isModalOpen: action.payload,
-        }
+    case types.FETCH_PHONE:
+      return {
+        ...state,
+        phone: action.payload,
+      }
+    case types.TOGGLE_MODAL:
+      return {
+        ...state,
+        isModalOpen: action.payload,
+      }
     default:
       return state
   }

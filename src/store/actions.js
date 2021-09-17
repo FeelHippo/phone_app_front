@@ -1,13 +1,12 @@
 import { types } from './types'
 import api from '../api'
 
-const { getPhones, postPhone } = api()
+const { getPhones, getPhone, postPhone, deletePhoneById } = api()
 
 export const getAllPhones = () => {
   return async dispatch => {
     try {
       const data = await getPhones()
-      console.log(data);
       dispatch(storePhones(data))
     } catch (err) {
       console.error(err)
@@ -17,6 +16,33 @@ export const getAllPhones = () => {
 
 const storePhones = data => ({
   type: types.FETCH_PHONES,
+  payload: data,
+})
+
+export const getPhoneById = id => {
+  return async dispatch => {
+    try {
+      const data = await getPhone(id)
+      dispatch(storePhone(data))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
+export const deletePhone = id => {
+  return async dispatch => {
+    try {
+      await deletePhoneById(id)
+      dispatch(getAllPhones())
+    } catch (err) {
+      console.error(err)
+    }
+  }
+}
+
+const storePhone = data => ({
+  type: types.FETCH_PHONE,
   payload: data,
 })
 

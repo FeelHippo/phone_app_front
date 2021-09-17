@@ -12,6 +12,16 @@ const api = (API_URL = 'http://localhost:3001') => {
         console.error(err)
       }
     },
+    getPhone: async id => {
+      const API_END = `${API_URL}/phone/${id}`
+
+      try {
+        const response = await axios.get(API_END)
+        return response.data
+      } catch (err) {
+        console.error(err)
+      }
+    },
     postPhone: async phoneData => {
       const API_END = `${API_URL}/new-phone`
 
@@ -22,6 +32,16 @@ const api = (API_URL = 'http://localhost:3001') => {
         const response = await axios.post(API_END, formData)
         return response.data
 
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    deletePhoneById: async id => {
+      const API_END = `${API_URL}/delete-phone/${id}`
+
+      try {
+        const response = await axios.delete(API_END)
+        return response.data
       } catch (err) {
         console.log(err)
       }
