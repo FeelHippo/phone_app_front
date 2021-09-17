@@ -11,6 +11,20 @@ const api = (API_URL = 'http://localhost:3001') => {
       } catch (err) {
         console.error(err)
       }
+    },
+    postPhone: async phoneData => {
+      const API_END = `${API_URL}/new-phone`
+
+      try {
+        const formData = new FormData()
+        Object.entries(phoneData).forEach(phone => formData.append(phone[0], phone[1]))
+
+        const response = await axios.post(API_END, formData)
+        return response.data
+
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }
