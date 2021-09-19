@@ -7,9 +7,11 @@ import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
 import Button from '@mui/material/Button'
+import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
 import Thumb from './Thumb'
 import { toggleModal, createNewPhone } from '../store/actions'
+import {isMobile} from 'react-device-detect'
 
 const phoneSchema = Yup.object().shape({
   name: Yup.string(),
@@ -27,7 +29,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '80vw',
+  width: isMobile ? '80vw' : '400px',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -39,13 +41,7 @@ const fieldGroup = {
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'space-between',
-  marginBottom: '1rem'
-}
-
-const errorMessage = {
-  color: 'tomato',
-  marginLeft: '1rem',
-  fontSize: '0.75em'
+  marginBottom: '4px'
 }
 
 const AddPhone = () => {
@@ -79,7 +75,7 @@ const AddPhone = () => {
                 price: 0,
                 screen: '',
                 processor: '',
-                ram: '',
+                ram: 0,
                 file: undefined,
               }}
               validationSchema={ phoneSchema }
@@ -95,49 +91,35 @@ const AddPhone = () => {
                   <Form style={fieldGroup}>
                     <div>
                       <div style={fieldGroup}>
-                        <Field name="name" placeholder="Name" />
-                        {
-                          errors.name && touched.name
-                            ? ( <div style={errorMessage}>Required!</div> )
-                            : null
-                        }
+                        <TextField name="name" placeholder="Name" error={touched.name && !!errors.name} size="small" onChange={e => setFieldValue('name', e.target.value)} />
                       </div>
                       <div style={fieldGroup}>
-                        <Field name="manufacturer" placeholder="Manufacturer" />
-                        {
-                          errors.manufacturer && touched.manufacturer
-                            ? ( <div style={errorMessage}>Required!</div> )
-                            : null
-                        }
+                        <TextField name="manufacturer" placeholder="Manufacturer" error={touched.manufacturer && !!errors.manufacturer} size="small" onChange={e => setFieldValue('manufacturer', e.target.value)} />
                       </div>
                       <div style={fieldGroup}>
                         <Field
                           name="description"
                           placeholder="Description"
-                          component="textarea"
+                          component={ TextField }
                           rows="4"
                           style={{ maxWidth: '85%' }}
+                          onChange={e => setFieldValue('description', e.target.value)}
                         />
                       </div>
                       <div style={fieldGroup}>
-                        <Field name="color" placeholder="Color" />
+                        <TextField name="color" placeholder="Color" error={touched.color && !!errors.color} size="small" onChange={e => setFieldValue('color', e.target.value)} />
                       </div>
                       <div style={fieldGroup}>
-                        <Field type="number" name="price" placeholder="Price" />
-                        {
-                          errors.price && touched.price
-                            ? ( <div style={errorMessage}>Required!</div> )
-                            : null
-                        }
+                        <TextField type="number" name="price" placeholder="Price" error={touched.price && !!errors.price} size="small" onChange={e => setFieldValue('price', e.target.value)}/>
                       </div>
                       <div style={fieldGroup}>
-                        <Field name="screen" placeholder="Screen" />
+                        <TextField name="screen" placeholder="Screen" error={touched.screen && !!errors.screen} size="small" onChange={e => setFieldValue('screen', e.target.value)} />
                       </div>
                       <div style={fieldGroup}>
-                        <Field name="processor" placeholder="Processor (GHz)" />
+                        <TextField name="processor" placeholder="Processor (GHz)" error={touched.processor && !!errors.processor} size="small" onChange={e => setFieldValue('processor', e.target.value)} />
                       </div>
                       <div style={fieldGroup}>
-                        <Field type="number" name="ram" placeholder="Ram (Mb)" />
+                        <TextField type="number" name="ram" placeholder="Ram (Mb)" error={touched.ram && !!errors.ram} size="small" onChange={e => setFieldValue('ram', e.target.value)} />
                       </div>
                       <input name="file" type="file" onChange={
                           (event) => {
@@ -156,9 +138,7 @@ const AddPhone = () => {
                         )
                       }
                     </div>
-                    <Button type="submit" variant="contained" endIcon={<SendIcon />}>
-                      Save Phone
-                    </Button>
+                    <Button type="submit" size="large" variant="contained" endIcon={<SendIcon />} />
                   </Form>
                 )
               }

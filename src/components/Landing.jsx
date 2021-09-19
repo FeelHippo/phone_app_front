@@ -1,17 +1,23 @@
 import React from 'react'
-import Phone from './Phone'
+import PhoneList from './PhoneList'
 import AddPhone from './AddPhone'
 import OpenModal from './OpenModal'
 
+const homeLayout = {
+  height: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+}
+
 const Landing = ({ phones }) => (
-  <div>
+  <div style={homeLayout}>
     {
       phones.length ? (
-        phones.map(phone => (
-          <Phone key={ phone.id } phone={ phone } />
-        ))
+        <PhoneList phones={ phones } />
       ) : (
-        <div>Nothing Yet</div>
+        <div>No Phones in Store</div>
       )
     }
     <AddPhone />

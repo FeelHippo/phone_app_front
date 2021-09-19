@@ -22,6 +22,17 @@ const api = (API_URL = 'http://localhost:3001') => {
         console.error(err)
       }
     },
+    getPhoneImage: async filename => {
+      const API_END = `${API_URL}/${filename}`
+
+      try {
+        const response = await axios.get(API_END, { responseType: 'arraybuffer' })
+        const blob = new Blob([response.data], { type: response.headers['content-type'] })
+        return URL.createObjectURL(blob)
+      } catch (err) {
+        console.log(err)
+      }
+    },
     postPhone: async phoneData => {
       const API_END = `${API_URL}/new-phone`
 

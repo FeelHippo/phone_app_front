@@ -1,13 +1,14 @@
 import { types } from './types'
 import api from '../api'
 
-const { getPhones, getPhone, postPhone, deletePhoneById } = api()
+const { getPhones, getPhone, getPhoneImage, postPhone, deletePhoneById } = api()
 
 export const getAllPhones = () => {
   return async dispatch => {
     try {
       const data = await getPhones()
-      dispatch(storePhones(data))
+      const phones = await Promise.all(data.map(async phone => ({ ...phone, file: await getPhoneImage(phone.imageFileName) })))
+      dispatch(storePhones(phones))
     } catch (err) {
       console.error(err)
     }
@@ -23,7 +24,8 @@ export const getPhoneById = id => {
   return async dispatch => {
     try {
       const data = await getPhone(id)
-      dispatch(storePhone(data))
+      const file = await getPhoneImage(data?.imageFileName)
+      dispatch(storePhone({ ...data, file }))
     } catch (err) {
       console.error(err)
     }

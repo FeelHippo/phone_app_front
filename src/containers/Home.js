@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getAllPhones } from '../store/actions'
+import CircularProgress from '@mui/material/CircularProgress'
 
 import Landing from '../components/Landing'
 
@@ -10,7 +11,9 @@ export class Home extends Component {
   }
 
   render() {
-    return (
+    return !this.props.phones ? (
+      <CircularProgress color="secondary" />
+    ) : (
       <Landing 
         phones={ this.props.phones }
       />
